@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "../../state";
 import PostWidget from "./PostWidget";
+import Moment from "moment"
 
 const PostsWidget = ({ userId, isProfile = false }) => {
   const dispatch = useDispatch();
@@ -52,6 +53,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
           userPicturePath,
           likes,
           comments,
+          createdAt,
         }) => (
           <PostWidget
             key={_id}
@@ -64,6 +66,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
             userPicturePath={userPicturePath}
             likes={likes}
             comments={comments}
+            createdAt={Moment(createdAt).format('MMMM Do YYYY, h:mm:ss a')}
           />
         )
       )}

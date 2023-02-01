@@ -8,6 +8,7 @@ import { Box, Divider, IconButton, Typography, useTheme } from "@mui/material";
 import FlexBetween from "../../components/FlexBetween";
 import Friend from "../../components/Friend";
 import WidgetWrapper from "../../components/WidgetWrapper";
+import CommentWidget from "./CommentsWidget";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPost } from "../../state";
@@ -22,6 +23,7 @@ const PostWidget = ({
   userPicturePath,
   likes,
   comments,
+  createdAt,
 }) => {
   const [isComments, setIsComments] = useState(false);
   const dispatch = useDispatch();
@@ -55,6 +57,9 @@ const PostWidget = ({
         subtitle={location}
         userPicturePath={userPicturePath}
       />
+      <Typography color={palette.neutral.medium} sx={{ ml: ".1rem", fontSize: ".75rem"}}>
+        {createdAt}
+      </Typography>
       <Typography color={main} sx={{ mt: "1rem" }}>
         {description}
       </Typography>
@@ -105,6 +110,7 @@ const PostWidget = ({
             </Box>
           ))}
           <Divider />
+          <CommentWidget />
         </Box>
       )}
     </WidgetWrapper>
