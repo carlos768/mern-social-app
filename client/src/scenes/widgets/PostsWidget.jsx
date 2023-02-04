@@ -67,7 +67,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
             likes={likes}
             comments={comments}
             createdAt={Moment(createdAt).format('MMMM Do YYYY, h:mm:ss a')}
-          />
+            />
         )
       )}
     </>

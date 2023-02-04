@@ -48,7 +48,7 @@ const MyPostWidget = ({ picturePath }) => {
 
     const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/posts`, {
       method: "POST",
-      headers: { Authorization: `Bearer ${token}`},
+      headers: { Authorization: `Bearer ${token}` },
       body: formData,
     });
 

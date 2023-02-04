@@ -1,52 +1,19 @@
 import { 
   Box, 
-  Divider, 
   Typography, 
-  InputBase,
   useTheme,
-  Button,
-  IconButton,
-  useMediaQuery
-} from "@mui/material"
-import FlexBetween from "../../components/FlexBetween";
-import WidgetWrapper from "../../components/WidgetWrapper";
-import UserImage from "../../components/UserImage";
-import { useDispatch, useSelector } from "react-redux";
-import { setPosts } from "../../state";
+} from "@mui/material";
 
-const CommentWidget = () => {
+const CommentsWidget = ({ userPicturePath, firstName, lastName, commentText }) => {
   const { palette } = useTheme();
-  const { _id, picturePath } = useSelector((state) => state.user)
+  const main = palette.neutral.main;
   return (
-    <WidgetWrapper>
-      <FlexBetween>
-
-      {/* <UserImage image={picturePath} /> */}
-      <img src={`${import.meta.env.VITE_BACKEND_URL}/assets/${picturePath}`} alt="user" style={{ objectFit: "cover", borderRadius: "50%", zIndex:"10" }} height={"45px"} width={"45px"} />
-      <InputBase 
-          placeholder="Add a comment..."
-          sx={{
-            width: "100%",
-            backgroundColor: palette.neutral.light,
-            borderRadius: "2rem",
-            padding: ".5rem 2rem",
-            right: "25px"
-          }}
-        />
-      <Button
-          // disabled={!post}
-          // onClick={handlePost}
-          sx={{
-            color: palette.primary.main,
-            backgroundColor: palette.background.alt,
-            borderRadius: "3rem"
-          }}
-        >
-          POST
-        </Button>
-      </FlexBetween>
-    </WidgetWrapper>
+    <Box display="flex" alignItems="center" gap=".5rem" my=".5rem">
+      <img src={`${import.meta.env.VITE_BACKEND_URL}/assets/${userPicturePath}`} alt="user" style={{ objectFit: "cover", borderRadius: "50%", zIndex:"10" }} height={"25px"} width={"25px"}/>
+      <Typography color={main} fontWeight="500">{firstName} {lastName}:</Typography>
+      <Typography>{commentText}</Typography>
+    </Box>
   )
 }
 
-export default CommentWidget;
+export default CommentsWidget
