@@ -1,11 +1,37 @@
 import Post from "../models/Post.js";
 import User from "../models/User.js";
+import imgbbUploader from "imgbb-uploader"
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
 
 // CREATE
 export const createPost = async (req, res) => {
   try {
     const { userId, description, picturePath } = req.body;
+    console.log(picturePath);
+    
     const user = await User.findById(userId);
+    if (picturePath != undefined) {
+      const response = await imgbbUploader(process.env.IMGBB_API_KEY, `D:/Carlos/Programacion/Proyectos/mern-social-app/server/public/assets/${picturePath}`)
+      
+      const newPost = new Post({
+        userId,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        location: user.location,
+        description,
+        userPicturePath: user.picturePath,
+        picturePath: response.url || null,
+        likes: {},
+        comments: []
+      });
+
+      await newPost.save();
+      const post = await Post.find().sort('-createdAt');
+      res.status(201).json(post);
+      return;
+    }
+    
     const newPost = new Post({
       userId,
       firstName: user.firstName,

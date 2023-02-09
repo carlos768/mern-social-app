@@ -38,7 +38,7 @@ const CommentWidget = ({ postId }) => {
   return (
     <WidgetWrapper>
       <FlexBetween>
-        <img src={`${import.meta.env.VITE_BACKEND_URL}/assets/${user.picturePath}`} alt="user" style={{ objectFit: "cover", borderRadius: "50%", zIndex:"10" }} height={"45px"} width={"45px"} />
+        <img src={user.picturePath} alt="user" style={{ objectFit: "cover", borderRadius: "50%", zIndex:"10" }} height={"45px"} width={"45px"} />
         <InputBase 
           placeholder="Add a comment..."
           onChange={(e) => setUserComment(e.target.value)}

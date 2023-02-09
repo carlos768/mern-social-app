@@ -45,6 +45,18 @@ const MyPostWidget = ({ picturePath }) => {
       formData.append("picture", image);
       formData.append("picturePath", image.name);
     }
+    console.log(image);
+    // const imgbbImageUpload = await fetch(`https://api.imgbb.com/1/upload`, {
+    //   method: "POST",
+    //   params: {
+    //     key: '9f1de0403dd44d5235e7e43389b0ae3d',
+    //     image: image
+    //   },
+    //   headers: {'Content-type': 'application/json' }
+    // })
+
+    // const imgbbImage = await imgbbImageUpload.json();
+    // console.log(imgbbImage)
 
     const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/posts`, {
       method: "POST",

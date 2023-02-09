@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js"
+import imgbbUploader from "imgbb-uploader"
 
 // REGISTER USER
 export const register = async (req, res) => {
@@ -18,6 +19,26 @@ export const register = async (req, res) => {
 
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(password, salt);
+
+    if (picturePath != undefined){
+      const response = await imgbbUploader(process.env.IMGBB_API_KEY, `D:/Carlos/Programacion/Proyectos/mern-social-app/server/public/assets/${picturePath}`)
+  
+      const newUser = new User({
+        firstName,
+        lastName,
+        email,
+        password: passwordHash,
+        picturePath: response.url,
+        friends,
+        location,
+        occupation,
+        viewedProfile: Math.floor(Math.random() * 1000),
+        impressions: Math.floor(Math.random() * 1000),
+      });
+      const savedUser = await newUser.save();
+      res.status(201).json(savedUser);
+      return;
+    }
 
     const newUser = new User({
       firstName,
