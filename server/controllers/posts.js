@@ -12,7 +12,7 @@ export const createPost = async (req, res) => {
     
     const user = await User.findById(userId);
     if (picturePath != undefined) {
-      const response = await imgbbUploader(process.env.IMGBB_API_KEY, `D:/Carlos/Programacion/Proyectos/mern-social-app/server/public/assets/${picturePath}`)
+      const response = await imgbbUploader(process.env.IMGBB_API_KEY, `${process.env.ASSETS_ABSOLUTE_PATH}${picturePath}`)
       
       const newPost = new Post({
         userId,
