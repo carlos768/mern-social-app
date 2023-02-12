@@ -19,7 +19,6 @@ import { verifyToken } from "./middleware/auth.js";
 // CONFIGURATIONS
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-console.log(__dirname);
 dotenv.config();
 const app = express();
 app.use(express.json());
@@ -41,9 +40,6 @@ const storage = multer.diskStorage({
   }
 });
 const upload = multer({ storage });
-
-// IMGBB UPLOAD
-
 
 // ROUTES WITH FILES 
 app.post("/auth/register", upload.single("picture"), register);

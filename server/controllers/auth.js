@@ -19,9 +19,10 @@ export const register = async (req, res) => {
 
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(password, salt);
-
-    if (picturePath != undefined){
-      const response = await imgbbUploader(process.env.IMGBB_API_KEY, `D:/Carlos/Programacion/Proyectos/mern-social-app/server/public/assets/${picturePath}`)
+    console.log(picturePath);
+    // Create user with image and upload to imgbb
+    if (picturePath != ""){
+      const response = await imgbbUploader(process.env.IMGBB_API_KEY, `${process.env.ASSETS_ABSOLUTE_PATH}${picturePath}`)
   
       const newUser = new User({
         firstName,
@@ -40,6 +41,7 @@ export const register = async (req, res) => {
       return;
     }
 
+    // Create user without image
     const newUser = new User({
       firstName,
       lastName,

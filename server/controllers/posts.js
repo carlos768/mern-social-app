@@ -11,6 +11,8 @@ export const createPost = async (req, res) => {
     console.log(picturePath);
     
     const user = await User.findById(userId);
+
+    // Create post with image and upload to imgbb
     if (picturePath != undefined) {
       const response = await imgbbUploader(process.env.IMGBB_API_KEY, `${process.env.ASSETS_ABSOLUTE_PATH}${picturePath}`)
       
@@ -31,7 +33,8 @@ export const createPost = async (req, res) => {
       res.status(201).json(post);
       return;
     }
-    
+
+    // Create post without image
     const newPost = new Post({
       userId,
       firstName: user.firstName,
