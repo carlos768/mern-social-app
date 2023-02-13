@@ -54,6 +54,7 @@ const Form = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const isLogin = pageType === "login";
   const isRegister = pageType === "register";
+  const [error, setError] = useState(false)
 
   const register = async (values, onSubmitProps) => {
     // this allows us to send form info with image
@@ -84,9 +85,9 @@ const Form = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(values),
     });
-    const loggedIn = await loggedInResponse.json();
-    onSubmitProps.resetForm();
-    if (loggedIn) {
+    const loggedIn = await loggedInResponse.json();;
+    // onSubmitProps.resetForm();
+    if (loggedInResponse.ok) {
       dispatch(
         setLogin({
           user: loggedIn.user,
@@ -94,6 +95,9 @@ const Form = () => {
         })
       );
       navigate("/home");
+    } 
+    if (loggedInResponse.ok === false){
+      setError(true)
     }
   };
 
@@ -118,7 +122,10 @@ const Form = () => {
         setFieldValue,
         resetForm,
       }) => (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={(e) => {
+          e.preventDefault()
+          handleSubmit()
+          }}>
           <Box
             display="grid"
             gap="30px"
@@ -231,6 +238,11 @@ const Form = () => {
               sx={{ gridColumn: "span 4" }}
             />
           </Box>
+         {error && 
+          <Box mt="1rem">
+            <Typography color="#ff0000">Invalid credentials</Typography>
+          </Box>
+         } 
 
           {/* BUTTONS */}
           <Box>
@@ -251,6 +263,7 @@ const Form = () => {
               onClick={() => {
                 setPageType(isLogin ? "register" : "login");
                 resetForm();
+                setError(false)
               }}
               sx={{
                 textDecoration: "underline",

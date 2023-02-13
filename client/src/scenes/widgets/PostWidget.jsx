@@ -27,6 +27,7 @@ const PostWidget = ({
   createdAt,
 }) => {
   const [isComments, setIsComments] = useState(false);
+  const [isFetching, setIsFetching] = useState(false);
   const dispatch = useDispatch();
   const token = useSelector((state) => state.token);
   const loggedInUserId = useSelector((state) => state.user._id);
@@ -38,6 +39,7 @@ const PostWidget = ({
   const primary = palette.primary.main;
 
   const patchLike = async () => {
+    setIsFetching(true);
     const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/posts/${postId}/like`, {
       method: "PATCH",
       headers: {
@@ -48,6 +50,7 @@ const PostWidget = ({
     });
     const updatedPost = await response.json();
     dispatch(setPost({ post: updatedPost }));
+    setIsFetching(false);
   };
 
   return(
@@ -77,7 +80,7 @@ const PostWidget = ({
         <FlexBetween gap="1rem">
 
           <FlexBetween gap="0.3rem">
-            <IconButton onClick={patchLike}>
+            <IconButton disabled={isFetching} onClick={patchLike}>
               {isLiked ? (
                 <FavoriteOutlined sx={{ color: primary }} />
               ) : (

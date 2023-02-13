@@ -16,6 +16,7 @@ const CommentWidget = ({ postId }) => {
   const user = useSelector((state) => state.user)
   const token = useSelector((state) => state.token);
   const [userComment, setUserComment] = useState("")
+  const [isFetching, setIsFetching] = useState(false);
   const values = {
     userId: user._id,
     firstName: user.firstName,
@@ -25,6 +26,7 @@ const CommentWidget = ({ postId }) => {
   }
 
   const postComment = async () => {
+    setIsFetching(true);
     const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/comments/${postId}`,{
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}`},
@@ -33,6 +35,7 @@ const CommentWidget = ({ postId }) => {
     const comment = await response.json()
     dispatch(setComment({comment}))
     setUserComment("");
+    setIsFetching(false);
   }
 
   return (
@@ -52,7 +55,7 @@ const CommentWidget = ({ postId }) => {
           }}
         />
         <Button
-          disabled={!userComment}
+          disabled={!userComment || isFetching}
           onClick={postComment}
           sx={{
             color: palette.primary.main,

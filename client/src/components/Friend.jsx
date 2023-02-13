@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { PersonAddOutlined, PersonRemoveOutlined } from "@mui/icons-material";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,6 +13,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) =>{
   const { _id } = useSelector((state) => state.user);
   const token = useSelector((state) => state.token);
   const friends = useSelector((state) => state.user.friends);
+  const [isFetching, setIsFetching] = useState(false);
 
   const { palette } = useTheme();
   const primaryLight = palette.primary.light;
@@ -22,6 +24,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) =>{
   const isFriend = friends.find((friend) => friend._id === friendId);
 
   const patchFriend = async () => {
+    setIsFetching(true);
     const response = await fetch(
       `${import.meta.env.VITE_BACKEND_URL}/users/${_id}/${friendId}`,
       {
@@ -34,6 +37,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) =>{
     );
     const data = await response.json();
     dispatch(setFriends({ friends: data}))
+    setIsFetching(false);
   };
 
   return (
@@ -67,7 +71,8 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) =>{
       {_id === friendId ? (
         <></>
       ) : (
-        <IconButton 
+        <IconButton
+        disabled={isFetching} 
         onClick={() => patchFriend()}
         sx={{ 
           backgroundColor: primaryLight, 

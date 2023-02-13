@@ -30,6 +30,7 @@ const MyPostWidget = ({ picturePath }) => {
   const [isImage, setIsImage] = useState(false);
   const [image, setImage] = useState(null);
   const [post, setPost] = useState("");
+  const [isFetching, setIsFetching] = useState(false);
   const { palette } = useTheme();
   const { _id } = useSelector((state) => state.user);
   const token = useSelector((state) => state.token);
@@ -38,6 +39,7 @@ const MyPostWidget = ({ picturePath }) => {
   const medium = palette.neutral.medium;
 
   const handlePost = async () => {
+    setIsFetching(true);
     const formData = new FormData();
     formData.append("userId", _id);
     formData.append("description", post);
@@ -56,6 +58,7 @@ const MyPostWidget = ({ picturePath }) => {
     dispatch(setPosts({ posts }));
     setImage(null);
     setPost("");
+    setIsFetching(false);
   };
 
   return (
@@ -153,7 +156,7 @@ const MyPostWidget = ({ picturePath }) => {
         )}
 
         <Button
-          disabled={!post}
+          disabled={!post || isFetching}
           onClick={handlePost}
           sx={{
             color: palette.primary.main,

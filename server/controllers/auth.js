@@ -21,7 +21,7 @@ export const register = async (req, res) => {
     const passwordHash = await bcrypt.hash(password, salt);
     console.log(picturePath);
     // Create user with image and upload to imgbb
-    if (picturePath != ""){
+    if (picturePath != "" && picturePath != undefined){
       const response = await imgbbUploader(process.env.IMGBB_API_KEY, `${process.env.ASSETS_ABSOLUTE_PATH}${picturePath}`)
   
       const newUser = new User({

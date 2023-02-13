@@ -8,7 +8,8 @@ const PostsWidget = ({ userId, isProfile = false }) => {
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts);
   const token = useSelector((state) => state.token);
-
+  const comments = useSelector((state) => state.comments)
+  
   const getPosts = async () => {
     const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/posts`, 
     {
@@ -37,7 +38,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
     } else {
       getPosts();
     }
-  }, []);
+  }, [comments]);
 
   return (
     <>
